@@ -6,16 +6,16 @@
 @prefix wikidata: <http://www.wikidata.org/entity/> .
 
 <#yo> rdf:type foaf:Person;
-	foaf:name "Aidan Hogan";
-	foaf:firstName "Aidan";
-	foaf:surname "Hogan";
+	foaf:name "rodrigo morinigo";
+	foaf:firstName "rodrigo";
+	foaf:surname "morinigo";
 	foaf:birthday "05-15";
-	foaf:age 31;
+	foaf:age 32;
 	foaf:gender "masculino"@es;
-	foaf:homepage <http://aidanhogan.com>;
+	foaf:homepage <https://mojopojo.github.io/semantic/>;
 	foaf:based_near <http://sws.geonames.org/3871336/>;
-	foaf:img <http://aidanhogan.com/img/me-hc.png>;
-	foaf:knows <http://www.dcc.uchile.cl/~dhernand/foaf.rdf#me>, <http://harth.org/andreas/foaf#ah> ;
+	foaf:img <https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAM7AAAAJGJjNzQ1OTdjLTg3ODgtNDllYS04NDU5LTI5Y2ZkNDBlOTg3Nw.jpg>;
+	foaf:knows <https://ar.linkedin.com/in/danycalvo/es>, <https://ar.linkedin.com/in/andrea-costantini-26127a42>,<> ;
 	foaf:interest wikidata:Q1578 , wikidata:Q54837;
 	ex:likesMovie wikidata:Q13794921 , wikidata:Q152105 .
 	
