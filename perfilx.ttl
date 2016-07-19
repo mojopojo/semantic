@@ -13,12 +13,12 @@
 	foaf:age 32;
 	foaf:gender "masculino"@es;
 	foaf:homepage <https://mojopojo.github.io/semantic/>;
-	foaf:based_near <http://sws.geonames.org/3871336/>;
+	foaf:based_near <http://sws.geonames.org/3435910/>;
 	foaf:img <https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAM7AAAAJGJjNzQ1OTdjLTg3ODgtNDllYS04NDU5LTI5Y2ZkNDBlOTg3Nw.jpg>;
 	foaf:knows <https://ar.linkedin.com/in/danycalvo/es>, <https://ar.linkedin.com/in/andrea-costantini-26127a42>,<https://ar.linkedin.com/in/ingenieroferrero/es> ;
 	foaf:interest wikidata:Q1578 , wikidata:Q54837;
 	ex:likesMovie wikidata:Q13794921 , wikidata:Q152105 .
 	
 <> a foaf:Document ;
-	foaf:name "Perfil FOAF de Aidan"@es;
+	foaf:name "Perfil FOAF de Rodrigoz"@es;
 	foaf:primaryTopic <#yo> .
