@@ -1,8 +1,8 @@
 @base <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl> .
+@prefix ns0: <http://ex.org/movie#> .
 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix ex: <http://ex.org/movie#> .
 @prefix wikidata: <http://www.wikidata.org/entity/> .
 
 <#yo> rdf:type foaf:Person;
@@ -16,9 +16,9 @@
 	foaf:based_near <http://sws.geonames.org/3435910/>;
 	foaf:img <https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAM7AAAAJGJjNzQ1OTdjLTg3ODgtNDllYS04NDU5LTI5Y2ZkNDBlOTg3Nw.jpg>;
 	foaf:knows <https://www.linkedin.com/in/eduardoapoggi/es>, <https://ar.linkedin.com/in/andrea-costantini-26127a42>,<https://ar.linkedin.com/in/ingenieroferrero/es> ;
-	foaf:interest wikidata:Q1578 , wikidata:Q54837;
-	ex:likesMovie wikidata:Q13794921 , wikidata:Q152105 .
-	
+	foaf:interest <https://www.wikidata.org/wiki/Q2539>,<https://www.wikidata.org/wiki/Q858810>,<https://www.wikidata.org/wiki/Q202745>;
+	ns0:likesMovie <https://www.wikidata.org/wiki/Q15624215>, <https://www.wikidata.org/wiki/Q16635326>, <https://www.wikidata.org/wiki/Q13417189>, <https://www.wikidata.org/wiki/Q266209> .
+
 <> a foaf:Document ;
 	foaf:name "Perfil FOAF de Rodrigoz"@es;
 	foaf:primaryTopic <#yo> .
