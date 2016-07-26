@@ -8,39 +8,123 @@ WHERE { ?s ?r ?o }
 
 #2. Todos los subjectos y nombres con la propiedad foaf:name.
 
+SELECT *
+WHERE { ?s foaf:name ?o }
+
 #3. Todos los nombres sin entregar los subjectos.
+
+SELECT ?o
+WHERE { ?s foaf:name ?o }
 
 #4. Tu propio nombre usando tu IRI (foaf:name)
 
+SELECT *
+WHERE { <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl#yo> foaf:name ?o }
+
 #5. Todo los subjectos con el nombre “Jose” (firstName).
+
+SELECT ?s
+WHERE { ?s foaf:firstName "José" }
 
 #6. Todos los nombres de las personas (type foaf:Person) ordenado (DESC) por edad (foaf:age).
 
+SELECT ?n ?a
+WHERE {
+  ?p rdf:type       foaf:Person ;
+     foaf:firstName ?n ;
+     foaf:age       ?a .
+}
+ORDER BY DESC(?a)
+
 #7. El nombre de la quinta persona (type foaf:Person) m´as vieja (cualquiera persona con esta edad).
+
+
+SELECT ?n ?a
+WHERE {
+  ?p rdf:type       foaf:Person ;
+     foaf:firstName ?n ;
+     foaf:age       ?a .
+}
+ORDER BY DESC(?a)
+LIMIT 1
+OFFSET 4
 
 #8. Todos los nombres de las personas que tienen la misma edad o menos que la tuya (puedes poner tu
 # edad directamente o con un patron de consulta usando tu IRI).
 
+SELECT ?n ?s ?a
+WHERE {
+  ?p rdf:type       foaf:Person ;
+     foaf:firstName ?n ;
+     foaf:surname   ?s ;
+     foaf:age       ?a .
+FILTER(?a <= ?a1) .
+  {
+    SELECT ?a1
+    WHERE { <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl#yo> foaf:age ?a1 }
+  }
+}
+
 #9. Todos los subjectos de tus amigos (foaf:knows) con tus nombres (foaf:name) si est´an disponibles
 # (hay que usar OPTIONAL).
+
+SELECT ?a ?n
+WHERE {
+  <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl#yo> foaf:knows ?a .
+  OPTIONAL { ?a foaf:name ?n }
+}
+
 
 #10. Todos los pares con la tipa persona (foaf:Person) que compartan al menos un inter´es (foaf:interest)
 # o una pel´ıcula favorita (ex:likesMovie) (hay que usar UNION; los nombres son opcionales: los IRIs bastan).
 
+SELECT DISTINCT ?pa ?pb
+WHERE {
+  ?pa a foaf:Person .
+  ?pb a foaf:Person .
+  FILTER(?pa != ?pb) .
+  { ?pa foaf:interest ?i . ?pb foaf:interest ?i }
+  UNION
+  { ?pa foaf:likesMovie ?m . ?pb foaf:likesMovie ?m }
+}
+
 
 #11. Los nombres de los “Named Graphs” que describan al menos una persona que tenga treinta tantos anos (30 ≤ etad ≤ 39).
 
+SELECT ?n
+WHERE {
+  GRAPH ?n {
+    ?p a foaf:Person; foaf:age ?a .
+    FILTER(30 <= ?a && ?a <= 39)
+  }
+}
 
 # 12. Un grafo de RDF con triples usando la propiedad ex:friendOfAFriend donde (x, ex:friendOfAFriend, z)
 # si y solo si (x, foaf:knows, y), (y, foaf:knows, z) (hay que usar CONSTRUCT). Es decir, hay que consultar
 # por todas las personas que est´an a una distancia de dos en el grafo de conexiones foaf:knows y crear un grafo conectando cada tal par con ex:friendOfAFriend.
  
+PREFIX ex: <http://ex.org/movie#>
+CONSTRUCT { ?p1 ex:friendOfAFriend ?p2 }
+WHERE {  
+  ?p1 a foaf:Person .
+  ?p2 a foaf:Person .
+  ?p3 a foaf:Person .
+  FILTER(?p1 != ?p2 && ?p2 != ?p3 && ?p1 != ?p3) .
+  ?p1 (foaf:knows) ?p2 .
+  ?p2 (foaf:knows) ?p3 .
+}
+
 
 # SPARQL 1.1 ---------------------------------------------
  
 #13. El conteo de personas.
 
+SELECT (COUNT(?p) as ?countp)
+WHERE { ?p a foaf:Person }
+
 #14. El conteo de personas que son conocidas por alguien (es decir, las personas q donde exista un triple (p, foaf:knows, q).
+
+
 
 
 #15. El conteo de personas que no son conocidas por nadie (usa NOT EXISTS)
