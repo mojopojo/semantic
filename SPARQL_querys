@@ -124,31 +124,72 @@ WHERE { ?p a foaf:Person }
 
 #14. El conteo de personas que son conocidas por alguien (es decir, las personas q donde exista un triple (p, foaf:knows, q).
 
-
-
+SELECT (COUNT(DISTINCT ?p2) as ?countp)
+WHERE { 
+  ?p1 a foaf:Person .
+  ?p2 a foaf:Person .
+  ?p1 (foaf:knows) ?p2 .
+}
 
 #15. El conteo de personas que no son conocidas por nadie (usa NOT EXISTS)
 
+SELECT (COUNT(DISTINCT ?p1) as ?countp)
+WHERE { 
+  ?p1 a foaf:Person .
+  FILTER NOT EXISTS {
+    ?p2 a foaf:Person .
+    ?p2 (foaf:knows) ?p1 .
+  }
+}
+
 
 #16. El promedio del numero de intereses que tiene cada persona.
+
+SELECT AVG(?ni) as ?avg
+WHERE {
+  ?p a foaf:Person.
+  {
+    SELECT (COUNT(?i) as ?ni)
+    WHERE { ?p foaf:interest ?i }
+    GROUP BY (?p)
+  }
+}
 
 
 #17. Las personas que conozcas recursivamente (es decir, hay que entregar las personas a quienes haya un
 # camino de foaf:knows de largo arbitrario empezando contigo)
 
+SELECT * 
+WHERE { <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl#yo> foaf:knows* ?p }
+
 
 #18. Los intereses de esas personas (tus amigos recursivos)
 
+SELECT ?i
+WHERE { <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl#yo> foaf:knows* ?p .
+?p foaf:interest ?i .
+ }
 
 #19. Las pares de personas a y b, donde hay una camino de largo par desde a hasta b. Es decir, encontrar
 #las pares de personas con distancia par (foaf:knows) entre si.
+
+SELECT DISTINCT ?p1 ?p2
+WHERE {
+  ?p1 (foaf:knows/foaf:knows)* ?p2 .
+  ?p1 a foaf:Person .
+  FILTER(?p1 != ?p2) .
+}
 
 # SPARQL 1.1 updates ---------------------------------------------
 
 #20. Deberıas importar los grafos de tus intereses y pel´ıculas desde Wikidata
 
+
+
 #21. Deber´ıas consultar ahora para el director mas comun en las pel´ıculas favoritas de todas las personas: es
 # decir, en pesar de contar las pelıculas, hay que contar los directores
+
+
 
 
 #22. Finalmente, deber´ıas agregar a tu grafo la gente que tenga un director de una pel´ıcula favorito en com´un
