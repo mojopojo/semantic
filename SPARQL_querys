@@ -182,18 +182,34 @@ WHERE {
 
 # SPARQL 1.1 updates ---------------------------------------------
 
-#20. Deberıas importar los grafos de tus intereses y pel´ıculas desde Wikidata
-
-
-
 #21. Deber´ıas consultar ahora para el director mas comun en las pel´ıculas favoritas de todas las personas: es
 # decir, en pesar de contar las pelıculas, hay que contar los directores
 
-
+PREFIX ns0: <http://ex.org/movie#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX ex: <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl#>
+SELECT ?director
+WHERE {
+   ex:yo ns0:likesMovie ?movie .
+  ?movie wdt:P57 ?director.
+} 
+GROUP BY (?director)
+ORDER BY DESC(COUNT(?director))
+LIMIT 1
 
 
 #22. Finalmente, deber´ıas agregar a tu grafo la gente que tenga un director de una pel´ıcula favorito en com´un
 #contigo. Se puede utilizar una propiedad ex:sameMovieTaste para conectarte con cada persona ası.
 
-
+PREFIX ns0: <http://ex.org/movie#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX ex: <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl#>
+INSERT {
+  GRAPH <https://raw.githubusercontent.com/mojopojo/semantic/gh-pages/perfilx.ttl> { ex:yo ex:sameMovieTaste ?person }
+}
+WHERE {
+  ex:yo ns0:likesMovie ?movie .
+  ?movie wdt:P57/^wdt:P57 ?movie1 .
+  ?person a foaf:Person ; ns0:likesMovie ?movie1 .
+}
 
