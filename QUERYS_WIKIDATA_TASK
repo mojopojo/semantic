@@ -1,0 +1,75 @@
+# TASK
+# Querys from https://query.wikidata.org
+
+
+#1 #editores del libro la biblia y año de publicacion
+
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+
+#editores del libro la biblia y año de publicacion
+SELECT ?editores (year(?date) as ?year)
+where { wd:Q1845 wdt:P747 ?editor .
+		?editor wdt:P577 ?date .
+	
+    OPTIONAL {
+    ?editor rdfs:label ?editores .
+    FILTER (lang(?editores) = "en")
+            }
+      }
+order by desc(?year)
+
+
+#2  ciudadania de los escritores de la biblia (via editorial)  nacidos en los ultimos 5 siglos
+
+
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+
+# ciudadania de los escritores de la biblia (via editorial)  nacidos en los ultimos 5 siglos
+select ?auth ?origen ?birth
+where {wd:Q1845 wdt:P747 ?x .
+       ?x wdt:P50 ?auth .
+       ?auth wdt:P569 ?birth .
+       BIND (YEAR(?birth) AS ?birthyear) .
+       FILTER(1400 < ?birthyear && ?birthyear <= 1999) .
+       ?auth wdt:P27 ?origen .
+      }
+
+
+#3 escritores de la biblia (via editorial) de inglaterra y alemania
+
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+
+# escritores de la biblia (via editorial) de inglaterra y alemania
+select ?auth 
+	where {wd:Q1845 wdt:P747 ?x .
+    	   ?x wdt:P50 ?auth .
+           {?auth wdt:P27 wd:Q183}
+          UNION
+           {?auth wdt:P27 wd:Q145}
+      }
+
+
+
+
+#4 escritores de la biblia (via editorial) agrupado por paises
+
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+
+# escritores de la biblia (via editorial) agrupado por paises
+select ?origen (COUNT(?origen) AS ?corigen) 
+	where {wd:Q1845 wdt:P747 ?x .
+    	   ?x wdt:P50 ?auth .
+           ?auth wdt:P27 ?origen .
+      }
+group by (?origen)
+order by desc(?corigen)
+
+
